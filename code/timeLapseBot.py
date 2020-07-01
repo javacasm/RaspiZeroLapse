@@ -32,6 +32,8 @@ commandList = '/help, /info, /imagen, /list, /last'
 
 camera = None
 
+time_between_picture = 0 
+
 def init():
     global camera
     camera = camara.initCamera()
@@ -40,6 +42,8 @@ def main():
     """Run the bot."""
     global update_id
     global chat_id
+    global time_between_picture
+    global camera
     
     init()
     
@@ -57,12 +61,18 @@ def main():
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     
     last_Beat = int(round(time.time() * 1000))
+    last_picture = 0
+    
     while True:
         try:
             now = int(round(time.time() * 1000))
             if (now - last_Beat) > 60000: # 60 segundos
                 utils.myLog('BotTest')
                 last_Beat = now
+            if (now - last_picture) > time_between_picture :
+               if camera != None:
+                    imageFile = camara.getImage(camera)
+                    utils.myLog(imageFile)
             updateBot(bot)
         except NetworkError:
             time.sleep(0.1)
@@ -81,6 +91,7 @@ def updateBot(bot):
     global update_id
     global chat_id
     global camera
+    global time_between_picture
     
     #utils.myLog('Updating telegramBot')
     # Request updates after the last update_id
@@ -97,7 +108,7 @@ def updateBot(bot):
             TelegramBase.chat_ids[user_real_name] = [command_time,chat_id]
             utils.myLog('Command: '+comando+' from user ' + str(user_real_name )+' in chat id:' + str(chat_id)+ ' at '+str(command_time))
             if comando == '/start':
-                update.message.reply_text("Bienvenido al Bot de riego " + v, reply_markup=user_keyboard_markup)
+                update.message.reply_text("Bienvenido al Bot de TimeLapse " + v, reply_markup=user_keyboard_markup)
             elif comando == 'hi':
                 update.message.reply_text('Hello {}'.format(update.message.from_user.first_name), reply_markup=user_keyboard_markup)
             elif comando == '/info':
@@ -115,7 +126,17 @@ def updateBot(bot):
                     answer = imageFile
                     utils.myLog(answer)
                     TelegramBase.send_picture(imageFile, chat_id)
-                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)                
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
+            elif comando == '/last':
+                answer = 'No implementada ' + comando       
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)        
+            elif comando == '/list':
+                answer = 'No implementada ' + comando       
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
+            elif comando.startswith('/T'):
+                time_between_picture = int(comando[2:])       
+                utils.myLog('Nuevo periodo entre imagenes' + str(time_between_picture))
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)                                    
             else:
                 update.message.reply_text('echobot: '+update.message.text, reply_markup=user_keyboard_markup)                
 

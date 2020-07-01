@@ -135,8 +135,9 @@ def updateBot(bot):
                 answer = 'No implementada ' + comando       
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
             elif comando.startswith('/T'):
-                time_between_picture = int(comando[2:])       
-                utils.myLog('Nuevo periodo entre imagenes' + str(time_between_picture))
+                time_between_picture = int(comando[2:])      
+                answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture)
+                utils.myLog(answer)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)                                    
             else:
                 update.message.reply_text('echobot: '+update.message.text, reply_markup=user_keyboard_markup)                

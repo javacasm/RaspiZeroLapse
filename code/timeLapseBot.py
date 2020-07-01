@@ -134,7 +134,7 @@ def updateBot(bot):
             elif comando == '/last':
                 imagenes = os.listdir(config.ImagesDirectory)
                 for imagen in imagenes:
-                    answer = imagen
+                    answer = config.ImagesDirectory + imagen
                 TelegramBase.send_picture(imagen, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)        
             elif comando == '/list':

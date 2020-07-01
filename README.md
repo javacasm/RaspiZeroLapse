@@ -9,6 +9,7 @@ Comandos:
 * **/image** Captura una imagen
 * **/last** Envía la última tomada
 * **/fecha:YYYYMMDDHHmmss** envía la anterior y posterior de la fecha indicada (opción a dar un rango y enviar todas las que lo cumplan, por ejemplo hora o día)
+* **/voltaje** Nos dice como va la batería (usa throttled)
 
 TODO:
 

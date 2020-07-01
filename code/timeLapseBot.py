@@ -12,6 +12,7 @@ from telegram import ReplyKeyboardMarkup
 from telegram.error import NetworkError, Unauthorized
 import requests
 import time # The time library is useful for delays
+import os
 
 import sys
 import config
@@ -134,7 +135,10 @@ def updateBot(bot):
                 answer = 'No implementada ' + comando       
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)        
             elif comando == '/list':
-                answer = 'No implementada ' + comando       
+                imagenes = os.listdir(config.ImagesDirectory)
+                answer = 'Imágenes\n' 
+                for imagen in imagenes:
+                    answer += imagen + 'çn'
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
             elif comando.startswith('/T'):
                 time_between_picture = int(comando[2:])      

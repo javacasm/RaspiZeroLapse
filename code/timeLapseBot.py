@@ -116,7 +116,7 @@ def updateBot(bot):
             elif comando == 'hi':
                 update.message.reply_text('Hello {}'.format(update.message.from_user.first_name), reply_markup=user_keyboard_markup)
             elif comando == '/info':
-                answer = 'Datos @ ' + utils.getStrDateTime() + '\n==========================\n\n' + riego.getFullData()
+                answer = 'Info: ' + utils.getStrDateTime() + '\n==========================\n\n' + 'Tiempo entre imágenes: ' + str(time_between_picture)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando == '/help':
                 bot.send_message(chat_id = chat_id, text = commandList, reply_markup = user_keyboard_markup)

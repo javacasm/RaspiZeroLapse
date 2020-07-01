@@ -67,16 +67,16 @@ def main():
     while True:
         try:
             now = int(round(time.time() * 1000))
-            if (now - last_Beat) > 60000: # 60 segundos
-                utils.myLog('BotTest')
-                last_Beat = now
             if time_between_picture > 0 and (now - last_picture) > time_between_picture :
                if camera != None:
                     imageFile = camara.getImage(camera)
                     message = 'TimeLapse: ' + imageFile
                     utils.myLog(message)
                     last_picture = now
-                    TelegramBase.send_message(message, chat_id)
+                    TelegramBase.send_message(message, chat_id)            
+            if (now - last_Beat) > 60000: # 60 segundos
+                utils.myLog('BotTest')
+                last_Beat = now
             updateBot(bot)
         except NetworkError:
             time.sleep(0.1)
@@ -132,7 +132,10 @@ def updateBot(bot):
                     TelegramBase.send_picture(imageFile, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
             elif comando == '/last':
-                answer = 'No implementada ' + comando       
+                imagenes = os.listdir(config.ImagesDirectory)
+                for imagen in imagenes:
+                    answer = imagen
+                TelegramBase.send_picture(imagen, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)        
             elif comando == '/list':
                 imagenes = os.listdir(config.ImagesDirectory)

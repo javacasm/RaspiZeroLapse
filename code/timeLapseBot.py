@@ -69,11 +69,13 @@ def main():
             if (now - last_Beat) > 60000: # 60 segundos
                 utils.myLog('BotTest')
                 last_Beat = now
-            if (now - last_picture) > time_between_picture :
+            if time_between_picture > 0 and (now - last_picture) > time_between_picture :
                if camera != None:
                     imageFile = camara.getImage(camera)
-                    utils.myLog('TimeLapse: ' + imageFile)
+                    message = 'TimeLapse: ' + imageFile
+                    utils.myLog(message)
                     time_between_picture = now
+                    TelegramBase.send_message(message, chat_id)
             updateBot(bot)
         except NetworkError:
             time.sleep(0.1)

@@ -24,11 +24,11 @@ v = '0.5'
 update_id = None
 
 # 'keypad' buttons
-user_keyboard = [['/help','/info'],['/imagen'], [ '/last' , '/list']]
+user_keyboard = [['/help','/info'],['/imagen','/Ttiempo'], [ '/last' , '/list']]
 # user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard, one_time_keyboard=True)
 user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard)
 
-commandList = '/help, /info, /imagen, /list, /last'
+commandList = '/help, /info, /imagen, /Ttiempo, /list, /last'
 
 camera = None
 
@@ -72,7 +72,8 @@ def main():
             if (now - last_picture) > time_between_picture :
                if camera != None:
                     imageFile = camara.getImage(camera)
-                    utils.myLog(imageFile)
+                    utils.myLog('TimeLapse: ' + imageFile)
+                    time_between_picture = now
             updateBot(bot)
         except NetworkError:
             time.sleep(0.1)

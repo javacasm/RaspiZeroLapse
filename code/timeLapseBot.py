@@ -20,7 +20,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '0.5'
+v = '0.8.2'
 
 update_id = None
 
@@ -75,7 +75,7 @@ def main():
                     imageFile = camara.getImage(camera)
                     message = 'TimeLapse: ' + imageFile
                     utils.myLog(message)
-                    time_between_picture = now
+                    last_picture = now
                     TelegramBase.send_message(message, chat_id)
             updateBot(bot)
         except NetworkError:
@@ -138,11 +138,14 @@ def updateBot(bot):
                 imagenes = os.listdir(config.ImagesDirectory)
                 answer = 'Imágenes\n' 
                 for imagen in imagenes:
-                    answer += imagen + 'çn'
+                    answer += imagen + '\n'
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
             elif comando.startswith('/T'):
                 time_between_picture = int(comando[2:])      
-                answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture)
+                if time_between_picture == 0:
+                    answer = 'Sin timeLapse'
+                else:
+                    answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture)
                 utils.myLog(answer)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)                                    
             else:

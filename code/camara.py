@@ -31,3 +31,8 @@ def getImage(camera, preview = False):
     if preview : camera.stop_preview() # cierra la previsualizacion
     
     return fullName
+
+def closeCamera(camera):
+    if camera != None:
+        camera.close()
+    return None

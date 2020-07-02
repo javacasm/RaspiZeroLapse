@@ -35,6 +35,8 @@ camera = None
 
 time_between_picture = 0 
 
+welcomeMsg = "Bienvenido al Bot de TimeLapse " + v
+
 def init():
     global camera
     camera = camara.initCamera()
@@ -64,7 +66,7 @@ def main():
     last_Beat = int(round(time.time() * 1000))
     last_picture = 0
     
-    welcomeMsg = "Bienvenido al Bot de TimeLapse " + v
+
 
 #    TelegramBase.send_message(welcomeMsg, chat_id)
 

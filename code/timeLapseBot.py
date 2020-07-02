@@ -158,7 +158,7 @@ def updateBot(bot):
                 utils.myLog(answer)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)             
             elif comando.startswith('/image'):                                   
-                answer = config.ImagesDirectory + comando[2:]
+                answer = config.ImagesDirectory + comando[1:]
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)                        
             else:

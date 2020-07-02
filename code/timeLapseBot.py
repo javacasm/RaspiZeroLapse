@@ -38,7 +38,7 @@ time_between_picture = 0
 def init():
     global camera
     camera = camara.initCamera()
-    
+
 def main():
     """Run the bot."""
     global update_id
@@ -133,14 +133,13 @@ def updateBot(bot):
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
             elif comando == '/last':
                 imagenes = os.listdir(config.ImagesDirectory)
-                for imagen in imagenes:
-                    answer = config.ImagesDirectory + imagen
+                answer = config.ImagesDirectory + imagenes[-1]
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)        
             elif comando == '/list':
                 imagenes = os.listdir(config.ImagesDirectory)
-                answer = 'Imágenes\n' 
-                for imagen in imagenes:
+                answer = str(len(imagenes)) + ' Imágenes\n----------------------\n' 
+                for imagen in sort(imagenes):
                     answer += imagen + '\n'
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
             elif comando.startswith('/T'):

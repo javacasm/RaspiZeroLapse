@@ -66,7 +66,7 @@ def main():
     
     welcomeMsg = "Bienvenido al Bot de TimeLapse " + v
 
-    TelegramBase.send_message(welcomeMsg, chat_id)
+#    TelegramBase.send_message(welcomeMsg, chat_id)
 
     while True:
         try:
@@ -100,6 +100,7 @@ def updateBot(bot):
     global chat_id
     global camera
     global time_between_picture
+    global welcomeMsg 
     
     #utils.myLog('Updating telegramBot')
     # Request updates after the last update_id
@@ -153,7 +154,11 @@ def updateBot(bot):
                 else:
                     answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture)
                 utils.myLog(answer)
-                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)                                    
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)             
+            elif comando.startswith('/image'):                                   
+                answer = config.ImagesDirectory + comando[2:]
+                TelegramBase.send_picture(answer, chat_id)
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)                        
             else:
                 update.message.reply_text('echobot: '+update.message.text, reply_markup=user_keyboard_markup)                
 

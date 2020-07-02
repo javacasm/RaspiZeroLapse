@@ -20,7 +20,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '0.9.3'
+v = '0.9.5'
 
 update_id = None
 
@@ -40,10 +40,24 @@ welcomeMsg = "Bienvenido al Bot de TimeLapse " + v
 
 
 def init():
-    global camera
+    # global camera
     global welcomeMsg
     utils.myLog(welcomeMsg)
-    camera = camara.initCamera()
+    # camera = camara.initCamera()
+
+def getImage():
+    global camera
+    global time_between_picture
+
+    imageFile = None
+    if camera == None:
+        camera = camara.initCamera()
+    if camera != None:
+        imageFile = camara.getImage(camera)
+    if time_between_picture == 0 or time_between_picture > 10000:
+        camara.closeCamera(camera)
+        camera = None
+    return imageFile
 
 def main():
     """Run the bot."""
@@ -74,12 +88,11 @@ def main():
         try:
             now = int(round(time.time() * 1000))
             if time_between_picture > 0 and (now - last_picture) > time_between_picture :
-               if camera != None:
-                    imageFile = camara.getImage(camera)
-                    message = 'TimeLapse: ' + imageFile
-                    utils.myLog(message)
-                    last_picture = now
-                    TelegramBase.send_message(message, chat_id)            
+                imageFile = getImage()
+                message = 'TimeLapse: ' + imageFile
+                utils.myLog(message)
+                last_picture = now
+                TelegramBase.send_message(message, chat_id)            
             if (now - last_Beat) > 60000: # 60 segundos
                 utils.myLog('BotTest')
                 last_Beat = now
@@ -131,17 +144,9 @@ def updateBot(bot):
                 sUsers = TelegramBase.getUsersInfo()
                 TelegramBase.send_message (sUsers,chat_id)
             elif comando == '/foto':
-                answer = 'No implementada ' + comando
-                if camera == None:
-                    camera = camara.initCamera()
-                if camera != None:
-                    imageFile = camara.getImage(camera)
-                    answer = imageFile
-                    utils.myLog(answer)
-                    TelegramBase.send_picture(imageFile, chat_id)
-                    if time_between_picture == 0 or time_between_picture > 10000:
-                        camara.closeCamera(camera)
-                        camera = None
+                answer = getImage()
+                utils.myLog(answer)
+                TelegramBase.send_picture(imageFile, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
             elif comando == '/last':
                 imagenes = os.listdir(config.ImagesDirectory)

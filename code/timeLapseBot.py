@@ -20,16 +20,16 @@ import utils
 import TelegramBase
 import camara
 
-v = '0.8.2'
+v = '0.8.3'
 
 update_id = None
 
 # 'keypad' buttons
-user_keyboard = [['/help','/info'],['/imagen','/Ttiempo'], [ '/last' , '/list']]
+user_keyboard = [['/help','/info'],['/foto','/Ttiempo'], [ '/last' , '/list', '/imageName']]
 # user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard, one_time_keyboard=True)
 user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard)
 
-commandList = '/help, /info, /imagen, /Ttiempo, /list, /last'
+commandList = '/help, /info, /foto, /Ttiempo, /list, /last, /imageName'
 
 camera = None
 
@@ -64,6 +64,10 @@ def main():
     last_Beat = int(round(time.time() * 1000))
     last_picture = 0
     
+    welcomeMsg = "Bienvenido al Bot de TimeLapse " + v
+
+    TelegramBase.send_message(welcomeMsg, chat_id)
+
     while True:
         try:
             now = int(round(time.time() * 1000))
@@ -112,7 +116,7 @@ def updateBot(bot):
             TelegramBase.chat_ids[user_real_name] = [command_time,chat_id]
             utils.myLog('Command: '+comando+' from user ' + str(user_real_name )+' in chat id:' + str(chat_id)+ ' at '+str(command_time))
             if comando == '/start':
-                update.message.reply_text("Bienvenido al Bot de TimeLapse " + v, reply_markup=user_keyboard_markup)
+                update.message.reply_text(welcomeMsg, reply_markup=user_keyboard_markup)
             elif comando == 'hi':
                 update.message.reply_text('Hello {}'.format(update.message.from_user.first_name), reply_markup=user_keyboard_markup)
             elif comando == '/info':

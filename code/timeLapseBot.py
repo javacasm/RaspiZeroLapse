@@ -20,16 +20,16 @@ import utils
 import TelegramBase
 import camara
 
-v = '0.9'
+v = '0.9.1'
 
 update_id = None
 
 # 'keypad' buttons
-user_keyboard = [['/help','/info'],['/foto','/Ttiempo'], [ '/last' , '/list', '/imageName']]
+user_keyboard = [['/help','/info'],['/foto','/Ttiempo'], [ '/last' , '/list'],['/NnumeroImagen', '/imageName']]
 # user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard, one_time_keyboard=True)
 user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard)
 
-commandList = '/help, /info, /foto, /Ttiempo, /list, /last, /imageName'
+commandList = '/help, /info, /foto, /Ttiempo, /list, /last, /imageName, /NnumeroImagen'
 
 camera = None
 
@@ -146,9 +146,16 @@ def updateBot(bot):
             elif comando == '/list':
                 imagenes = os.listdir(config.ImagesDirectory)
                 answer = str(len(imagenes)) + ' Imágenes\n----------------------\n' 
+                counter = 1
                 for imagen in sorted(imagenes):
-                    answer += imagen + '\n'
-                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
+                    answer += str(counter) + ' ' + imagen + '\n'
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
+            elif comando.startswith('/N'):
+                numero = int(comando[2:])
+                imagenes = sorted(os.listdir(config.ImagesDirectory))
+                imagen = imagenes[numero]
+                TelegramBase.send_picture(answer, chat_id)
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando.startswith('/T'):
                 time_between_picture = int(comando[2:])      
                 if time_between_picture == 0:
@@ -163,7 +170,7 @@ def updateBot(bot):
             elif comando.startswith('/image'):                                   
                 answer = config.ImagesDirectory + comando[1:]
                 TelegramBase.send_picture(answer, chat_id)
-                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)                        
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             else:
                 update.message.reply_text('echobot: '+update.message.text, reply_markup=user_keyboard_markup)                
 

@@ -139,7 +139,7 @@ def updateBot(bot):
             elif comando == '/list':
                 imagenes = os.listdir(config.ImagesDirectory)
                 answer = str(len(imagenes)) + ' Imágenes\n----------------------\n' 
-                for imagen in sort(imagenes):
+                for imagen in sorted(imagenes):
                     answer += imagen + '\n'
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
             elif comando.startswith('/T'):

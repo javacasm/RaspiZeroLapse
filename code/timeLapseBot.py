@@ -149,11 +149,12 @@ def updateBot(bot):
                 counter = 1
                 for imagen in sorted(imagenes):
                     answer += str(counter) + ' ' + imagen + '\n'
+                    counter += 1
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando.startswith('/N'):
                 numero = int(comando[2:])
                 imagenes = sorted(os.listdir(config.ImagesDirectory))
-                imagen = imagenes[numero]
+                answer = imagenes[numero]
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando.startswith('/T'):

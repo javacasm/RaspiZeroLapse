@@ -9,7 +9,7 @@ from datetime import datetime
 import config
 import utils
 
-v = '0.8'
+v = '0.8.1'
 
 def initCamera():
     camera = PiCamera() # creamos el objeto camara
@@ -21,7 +21,7 @@ def getImage(camera, preview = False):
         camera.start_preview() # muestra la previsualizacion
         sleep(1) # espera 5 segundos
     now = datetime.now() 
-    date_time = now.strftime("%Y%d%M-%H%m%S")
+    date_time = now.strftime("%Y%d%m-%H%M%S")
     fileName = 'image' + date_time + '.jpg'
     fullName = config.ImagesDirectory + fileName
     utils.myDebug("image - " + fullName)

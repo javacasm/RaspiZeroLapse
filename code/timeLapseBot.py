@@ -20,7 +20,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '0.9.1'
+v = '0.9.2'
 
 update_id = None
 
@@ -140,7 +140,7 @@ def updateBot(bot):
                     utils.myLog(answer)
                     TelegramBase.send_picture(imageFile, chat_id)
                     if time_between_picture == 0 or time_between_picture > 10000:
-                        camara.closeCamera()
+                        camara.closeCamera(camera)
                         camera = None
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
             elif comando == '/last':

@@ -20,7 +20,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '0.8.4'
+v = '0.9'
 
 update_id = None
 
@@ -123,7 +123,7 @@ def updateBot(bot):
             elif comando == 'hi':
                 update.message.reply_text('Hello {}'.format(update.message.from_user.first_name), reply_markup=user_keyboard_markup)
             elif comando == '/info':
-                answer = 'Info: ' + utils.getStrDateTime() + '\n==========================\n\n' + 'Tiempo entre imágenes: ' + str(time_between_picture)
+                answer = 'Info: ' + utils.getStrDateTime() + '\n==========================\n\n' + 'Tiempo entre imágenes: ' + str(time_between_picture) + '\n '+str(len(os.listdir(config.ImagesDirectory)))+' imágenes'
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando == '/help':
                 bot.send_message(chat_id = chat_id, text = commandList, reply_markup = user_keyboard_markup)

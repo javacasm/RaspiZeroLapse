@@ -20,7 +20,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '0.8.3'
+v = '0.8.4'
 
 update_id = None
 
@@ -140,7 +140,7 @@ def updateBot(bot):
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
             elif comando == '/last':
                 imagenes = os.listdir(config.ImagesDirectory)
-                answer = config.ImagesDirectory + imagenes[-1]
+                answer = config.ImagesDirectory + sorted(imagenes)[-1]
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)        
             elif comando == '/list':
@@ -154,7 +154,10 @@ def updateBot(bot):
                 if time_between_picture == 0:
                     answer = 'Sin timeLapse'
                 else:
-                    answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture)
+                    if time_between_picture > 1000:
+                        answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture/1000) + ' segundos'
+                    else:
+                        answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture) + ' milisegundos'
                 utils.myLog(answer)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)             
             elif comando.startswith('/image'):                                   

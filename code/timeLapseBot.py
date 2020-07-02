@@ -146,7 +146,7 @@ def updateBot(bot):
             elif comando == '/foto':
                 answer = getImage()
                 utils.myLog(answer)
-                TelegramBase.send_picture(imageFile, chat_id)
+                TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
             elif comando == '/last':
                 imagenes = os.listdir(config.ImagesDirectory)
@@ -161,8 +161,8 @@ def updateBot(bot):
                 for imagen in imagenes:
                     answer += str(contadorImagenes) + ' ' + imagen + '\n'
                     contadorImagenes += 1
-                    utils.myDebug(answer)
-                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
+                utils.myDebug(answer)
+                update.message.reply_text(answer[0:200],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando.startswith('/N'):
                 numero = int(comando[2:])
                 imagenes = sorted(os.listdir(config.ImagesDirectory))

@@ -21,7 +21,7 @@ def getImage(camera, preview = False):
         camera.start_preview() # muestra la previsualizacion
         sleep(1) # espera 5 segundos
     now = datetime.now() 
-    date_time = now.strftime("%Y%d%m-%H%M%S")
+    date_time = now.strftime("%Y%d%M-%H%m%S")
     fileName = 'image' + date_time + '.jpg'
     fullName = config.ImagesDirectory + fileName
     utils.myDebug("image - " + fullName)

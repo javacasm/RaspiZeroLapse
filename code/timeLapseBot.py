@@ -37,8 +37,12 @@ time_between_picture = 0
 
 welcomeMsg = "Bienvenido al Bot de TimeLapse " + v
 
+
+
 def init():
     global camera
+    global welcomeMsg
+    utils.myLog(welcomeMsg)
     camera = camara.initCamera()
 
 def main():
@@ -59,15 +63,11 @@ def main():
     except IndexError:
         update_id = None
         
-    utils.myLog('Init TelegramBot')
-    
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     
     last_Beat = int(round(time.time() * 1000))
     last_picture = 0
-    
-
-
+   
 #    TelegramBase.send_message(welcomeMsg, chat_id)
 
     while True:
@@ -152,10 +152,11 @@ def updateBot(bot):
                 imagenes = sorted(os.listdir(config.ImagesDirectory))
                 answer = str(len(imagenes)) + ' Imágenes\n----------------------\n' 
                 utils.myDebug(answer)
-                counter = 1
+                contadorImagenes = 1
                 for imagen in imagenes:
-                    answer += str(counter) + ' ' + imagen + '\n'
-                    counter += 1
+                    answer += str(contadorImagenes) + ' ' + imagen + '\n'
+                    contadorImagenes += 1
+                    utils.myDebug(answer)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando.startswith('/N'):
                 numero = int(comando[2:])

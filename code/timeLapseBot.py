@@ -20,7 +20,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '0.9.2'
+v = '0.9.3'
 
 update_id = None
 
@@ -149,17 +149,18 @@ def updateBot(bot):
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)        
             elif comando == '/list':
-                imagenes = os.listdir(config.ImagesDirectory)
+                imagenes = sorted(os.listdir(config.ImagesDirectory))
                 answer = str(len(imagenes)) + ' Imágenes\n----------------------\n' 
+                utils.myDebug(answer)
                 counter = 1
-                for imagen in sorted(imagenes):
+                for imagen in imagenes:
                     answer += str(counter) + ' ' + imagen + '\n'
                     counter += 1
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando.startswith('/N'):
                 numero = int(comando[2:])
                 imagenes = sorted(os.listdir(config.ImagesDirectory))
-                answer = imagenes[numero]
+                answer = config.ImagesDirectory + imagenes[numero]
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando.startswith('/T'):

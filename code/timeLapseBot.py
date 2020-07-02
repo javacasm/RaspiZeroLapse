@@ -130,7 +130,7 @@ def updateBot(bot):
             elif comando == '/users':
                 sUsers = TelegramBase.getUsersInfo()
                 TelegramBase.send_message (sUsers,chat_id)
-            elif comando == '/imagen':
+            elif comando == '/foto':
                 answer = 'No implementada ' + comando
                 if camera != None:
                     imageFile = camara.getImage(camera)

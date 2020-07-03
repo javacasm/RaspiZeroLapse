@@ -82,7 +82,8 @@ def main():
     last_Beat = int(round(time.time() * 1000))
     last_picture = 0
    
-#    TelegramBase.send_message(welcomeMsg, chat_id)
+    if config.ADMIN_USER != None:
+        TelegramBase.send_message(welcomeMsg, config.ADMIN_USER)
 
     while True:
         try:
@@ -128,6 +129,9 @@ def updateBot(bot):
             command_time = update.message.date # command date
             user = update.message.from_user #User full objetct
             chat_id = int(update.message.from_user.id)
+            if chat_id not in config.ALLOWED_USERS:
+                utils.myLog('Not allowed: '+chat_id)
+                break
             user_real_name = user.first_name #USER_REAL_NAME
             TelegramBase.chat_ids[user_real_name] = [command_time,chat_id]
             utils.myLog('Command: '+comando+' from user ' + str(user_real_name )+' in chat id:' + str(chat_id)+ ' at '+str(command_time))

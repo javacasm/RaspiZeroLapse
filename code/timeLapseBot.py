@@ -130,7 +130,7 @@ def updateBot(bot):
             user = update.message.from_user #User full objetct
             chat_id = int(update.message.from_user.id)
             if chat_id not in config.ALLOWED_USERS:
-                utils.myLog('Not allowed: '+chat_id)
+                utils.myLog('Not allowed: ' + str(chat_id))
                 break
             user_real_name = user.first_name #USER_REAL_NAME
             TelegramBase.chat_ids[user_real_name] = [command_time,chat_id]

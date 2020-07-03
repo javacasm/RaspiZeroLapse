@@ -4,7 +4,12 @@
 
 TELEGRAM_API_TOKEN = 'YOUR TELEGRAM API KEY'
 
-v = '0.5'
+v = '0.8'
 
 ImagesDirectory = './images/'
 
+
+# chat_id del Admin
+ADMIN_USER = 123123123 
+
+ALLOWED_USERS = [ADMIN_USER]

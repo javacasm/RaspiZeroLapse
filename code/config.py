@@ -4,7 +4,7 @@
 
 TELEGRAM_API_TOKEN = 'YOUR TELEGRAM API KEY'
 
-v = '0.8'
+v = '1.0'
 
 ImagesDirectory = './images/'
 

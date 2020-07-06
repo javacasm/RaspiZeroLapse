@@ -21,7 +21,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '1.0.2'
+v = '1.0.3'
 
 update_id = None
 
@@ -73,24 +73,22 @@ def main():
     global chat_id
     global time_between_picture
     global camera
-    
+
     init()
-    
+
     bot = telegram.Bot(config.TELEGRAM_API_TOKEN)
-    
+
     # get the first pending update_id, this is so we can skip over it in case
     # we get an "Unauthorized" exception.
     try:
         update_id = bot.get_updates()[0].update_id
     except IndexError:
         update_id = None
-        
+
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    
+
     last_Beat = int(round(time.time() * 1000))
     last_picture = 0
-   
-    
 
     while True:
         try:
@@ -100,7 +98,7 @@ def main():
                 message = 'TimeLapse: ' + imageFile
                 utils.myLog(message)
                 last_picture = now
-                TelegramBase.send_message(message, chat_id)            
+                TelegramBase.send_message(message, chat_id)
             if (now - last_Beat) > 60000: # 60 segundos
                 utils.myLog('BotTest')
                 last_Beat = now
@@ -112,9 +110,10 @@ def main():
             update_id += 1
         except KeyboardInterrupt:
             utils.myLog('Interrupted')
-            sys.exit(0)            
+            sys.exit(0)
         except Exception as e:
-            utils.myLog('Excepcion!!: ' + str(e))
+            message = 'Excepcion!!: ' + str(e)
+            sendMsg2Admin(message)
 
 # Update and chat with the bot
 def updateBot(bot):

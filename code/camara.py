@@ -9,7 +9,7 @@ from datetime import datetime
 import config
 import utils
 
-v = '0.8.2'
+v = '0.9'
 
 def initCamera():
     camera = PiCamera() # creamos el objeto camara

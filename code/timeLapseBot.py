@@ -21,7 +21,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '1.0.1'
+v = '1.0.2'
 
 update_id = None
 
@@ -138,7 +138,7 @@ def updateBot(bot):
             chat_id = int(update.message.from_user.id)
             user_real_name = user.first_name #USER_REAL_NAME
             if chat_id not in config.ALLOWED_USERS:
-                message = 'User: ' + user + ' (real name: ' +  user_real_name + ') not allowed. Chat_id ' + str(chat_id) + '. Will be reported'
+                message = 'User: {} not allowed. Chat_id {} command: {}. Will be reported'.format( str(user_real_name), str(chat_id), comando)
                 sendMsg2Admin(message)
                 break
             

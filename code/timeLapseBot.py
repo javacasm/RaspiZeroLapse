@@ -21,7 +21,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '1.0'
+v = '1.0.1'
 
 update_id = None
 
@@ -60,6 +60,13 @@ def getImage():
         camera = None
     return imageFile
 
+def sendMsg2Admin(message):
+    utils.myLog(message)
+    if config.ADMIN_USER != None:
+        TelegramBase.send_message(message, config.ADMIN_USER)
+    else:
+        utils.myLog('No admin user id')
+
 def main():
     """Run the bot."""
     global update_id
@@ -83,8 +90,7 @@ def main():
     last_Beat = int(round(time.time() * 1000))
     last_picture = 0
    
-    if config.ADMIN_USER != None:
-        TelegramBase.send_message(welcomeMsg, config.ADMIN_USER)
+    sendMsg2Admin(welcomeMsg)
 
     while True:
         try:
@@ -130,10 +136,12 @@ def updateBot(bot):
             command_time = update.message.date # command date
             user = update.message.from_user #User full objetct
             chat_id = int(update.message.from_user.id)
-            if chat_id not in config.ALLOWED_USERS:
-                utils.myLog('Not allowed: ' + str(chat_id))
-                break
             user_real_name = user.first_name #USER_REAL_NAME
+            if chat_id not in config.ALLOWED_USERS:
+                message = 'User: ' + user + ' (real name: ' +  user_real_name + ') not allowed. Chat_id ' + str(chat_id) + '. Will be reported'
+                sendMsg2Admin(message)
+                break
+            
             TelegramBase.chat_ids[user_real_name] = [command_time,chat_id]
             utils.myLog('Command: '+comando+' from user ' + str(user_real_name )+' in chat id:' + str(chat_id)+ ' at '+str(command_time))
             if comando == '/start':

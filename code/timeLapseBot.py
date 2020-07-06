@@ -43,7 +43,7 @@ welcomeMsg = "Bienvenido al Bot de TimeLapse " + v
 def init():
     # global camera
     global welcomeMsg
-    utils.myLog(welcomeMsg)
+    sendMsg2Admin(welcomeMsg)
     # camera = camara.initCamera()
 
 def getImage():
@@ -63,7 +63,7 @@ def getImage():
 def sendMsg2Admin(message):
     utils.myLog(message)
     if config.ADMIN_USER != None:
-        TelegramBase.send_message(message, config.ADMIN_USER)
+        TelegramBase.send_message(utils.getStrDateTime()+ " " + message, config.ADMIN_USER)
     else:
         utils.myLog('No admin user id')
 
@@ -90,7 +90,7 @@ def main():
     last_Beat = int(round(time.time() * 1000))
     last_picture = 0
    
-    sendMsg2Admin(welcomeMsg)
+    
 
     while True:
         try:

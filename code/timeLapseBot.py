@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Simple Bot to reply to Telegram messages, get MQTT connection
-
+"""Simple Bot to reply to Telegram messages
+    take pictures and send to users
+    Can take pictures in time lapse way
 """
 
 # Telegram stuff: from inopya https://github.com/inopya/mini-tierra
@@ -20,7 +21,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '0.9.5'
+v = '1.0'
 
 update_id = None
 

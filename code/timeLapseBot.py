@@ -21,7 +21,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '1.0.3'
+v = '1.0.4'
 
 update_id = None
 
@@ -37,8 +37,6 @@ camera = None
 time_between_picture = 0 
 
 welcomeMsg = "Bienvenido al Bot de TimeLapse " + v
-
-
 
 def init():
     # global camera
@@ -115,6 +113,18 @@ def main():
             message = 'Excepcion!!: ' + str(e)
             sendMsg2Admin(message)
 
+def getTimeLapseStr():
+    global time_between_picture
+    answer = ''
+    if time_between_picture == 0:
+                    answer = 'Sin timeLapse'
+                else:
+                    if time_between_picture > 1000:
+                        answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture/1000) + ' segundos'
+                    else:
+                        answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture) + ' milisegundos'
+    return answer
+
 # Update and chat with the bot
 def updateBot(bot):
     """Answer the message the user sent."""
@@ -148,7 +158,7 @@ def updateBot(bot):
             elif comando == 'hi':
                 update.message.reply_text('Hello {}'.format(update.message.from_user.first_name), reply_markup=user_keyboard_markup)
             elif comando == '/info':
-                answer = 'Info: ' + utils.getStrDateTime() + '\n==========================\n\n' + 'Tiempo entre imágenes: ' + str(time_between_picture) + '\n '+str(len(os.listdir(config.ImagesDirectory)))+' imágenes'
+                answer = 'Info: ' + utils.getStrDateTime() + '\n==========================\n\n' + 'Tiempo entre imágenes: ' + getTimeLapseStr() + '\n '+str(len(os.listdir(config.ImagesDirectory)))+' imágenes'
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando == '/help':
                 bot.send_message(chat_id = chat_id, text = commandList, reply_markup = user_keyboard_markup)
@@ -186,13 +196,7 @@ def updateBot(bot):
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando.startswith('/T'):
                 time_between_picture = int(comando[2:])      
-                if time_between_picture == 0:
-                    answer = 'Sin timeLapse'
-                else:
-                    if time_between_picture > 1000:
-                        answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture/1000) + ' segundos'
-                    else:
-                        answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture) + ' milisegundos'
+                answer = getTimeLapseStr()
                 utils.myLog(answer)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)             
             elif comando.startswith('/image'):                                   

@@ -31,3 +31,9 @@ def getTemp():
     utils.myLog(strTemp)
     return strTemp
 
+def getThrottled():
+    strThrotled, strError = executeProcess(cmdGetTrottled[0],cmdGetTrottled[1)]
+    utils.myLog(strThrotled)
+    if strError != None:
+        utils.myLog(strError)
+    return strThrotled

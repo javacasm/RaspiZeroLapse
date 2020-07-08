@@ -3,7 +3,7 @@ import subprocess
 
 import utils
 
-v = '0.2'
+v = '0.4'
 
 cmdGetTrottled = ['/opt/vc/bin/vcgencmd', 'get_throttled'] 
 cmdGetTemp = ['/opt/vc/bin/vcgencmd', 'measure_temp']
@@ -33,6 +33,7 @@ def getTemp():
 def getThrottled(): 
     strThrotled, strError = executeProcess(cmdGetTrottled[0],cmdGetTrottled[1]) 
     strThrotled = str(strThrotled) 
+    strError = str(strError)
     utils.myLog(strThrotled) 
     if strError != None:
         utils.myLog(strError) 

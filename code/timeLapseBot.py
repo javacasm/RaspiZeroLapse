@@ -21,7 +21,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '1.0.4'
+v = '1.0.5'
 
 update_id = None
 
@@ -117,12 +117,12 @@ def getTimeLapseStr():
     global time_between_picture
     answer = ''
     if time_between_picture == 0:
-                    answer = 'Sin timeLapse'
-                else:
-                    if time_between_picture > 1000:
-                        answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture/1000) + ' segundos'
-                    else:
-                        answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture) + ' milisegundos'
+        answer = 'Sin timeLapse'
+    else:
+        if time_between_picture > 1000:
+            answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture/1000) + ' segundos'
+        else:
+            answer =  'Nuevo periodo entre imagenes: ' + str(time_between_picture) + ' milisegundos'
     return answer
 
 # Update and chat with the bot

@@ -4,7 +4,12 @@ import subprocess
 
 import utils
 
+v = '0.1'
+
 cmdGetTemp = ['opt/vc/bin/vcgencmd', 'get_throttled']
+
+def init():
+    utils.myLog('RaspiUtils ' + v)
 
 def executeCommand(command):
     stream = os.popen(command)

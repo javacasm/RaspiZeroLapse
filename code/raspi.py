@@ -4,9 +4,10 @@ import subprocess
 
 import utils
 
-v = '0.1'
+v = '0.2'
 
-cmdGetTemp = ['opt/vc/bin/vcgencmd', 'get_throttled']
+cmdGetTrottled = ['/opt/vc/bin/vcgencmd', 'get_throttled']
+cmdGetTemp = ['/opt/vc/bin/vcgencmd', 'measure_temp']
 
 def init():
     utils.myLog('RaspiUtils ' + v)

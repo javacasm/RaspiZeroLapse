@@ -1,4 +1,11 @@
-# Test de cmara
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+    Test of cámara functionality
+    Licencia CC by @javacasm    
+    Julio de 2020
+ """
+
 
 import camara
 from time import sleep

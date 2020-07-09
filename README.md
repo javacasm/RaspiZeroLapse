@@ -2,6 +2,9 @@
 
 Ejemplo de programa sencillo en python para hacer timeLapses controlados desde telegram en una Raspberry Pi Zero W
 
+
+![Licencia CC](./images/Licencia_cc_peque.png) by @javacasm
+
 Basado en https://github.com/javacasm/RiegoRaspberryArduino
 
 Comandos:

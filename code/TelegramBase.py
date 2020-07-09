@@ -1,4 +1,11 @@
-# Telegram
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+""" Telegram utils
+    Licencia CC by @javacasm    
+    Julio de 2020
+    Telegram stuff: original @inopya https://github.com/inopya/mini-tierra    
+"""
 
 # TELEGRAM
 import telegram

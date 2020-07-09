@@ -1,7 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+""" Todo lo relacionado con la camara
+    Licencia CC by @javacasm    
+    Julio de 2020
 """
-Todo lo relacionado con la camara
-"""
-
 
 from picamera import PiCamera
 from time import sleep

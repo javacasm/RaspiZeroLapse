@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+    Test of Raspi functionality
+    Licencia CC by @javacasm    
+    Julio de 2020
+ """
+
 import raspi
 
 v = '0.3'

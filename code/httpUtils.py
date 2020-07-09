@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+""" http utils
+    Licencia CC by @javacasm    
+    Julio de 2020
+    original @inopya https://github.com/inopya/mini-tierra    
+"""
 import requests
 
 v = '1.1'

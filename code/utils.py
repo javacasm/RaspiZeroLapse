@@ -1,4 +1,12 @@
-# Utils
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+    Utils
+    Licencia CC by @javacasm    
+    Julio de 2020
+    based in original by @inopya https://github.com/inopya/mini-tierra    
+"""
+
 
 import time
 import datetime

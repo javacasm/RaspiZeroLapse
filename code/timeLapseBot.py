@@ -1,11 +1,14 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Simple Bot to reply to Telegram messages
     take pictures and send to users
     Can take pictures in time lapse way
+    Licencia CC by @javacasm    
+    Julio de 2020
+    Telegram stuff: original @inopya https://github.com/inopya/mini-tierra    
 """
 
-# Telegram stuff: from inopya https://github.com/inopya/mini-tierra
+
 
 import logging
 import telegram

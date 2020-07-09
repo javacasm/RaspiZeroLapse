@@ -1,4 +1,10 @@
-# Configuration file
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+""" Configuration file
+    Licencia CC by @javacasm    
+    Julio de 2020
+"""
+
 
 # Telegram Bot Authorization Token
 

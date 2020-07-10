@@ -28,3 +28,4 @@ TODO:
     * **/temp** Nos da la temperatura de la raspberry
     * Crear directorio para el timelapse
     * Descargar todas las imagenes
+    * **/TL:Nombre,TiempoEntreFotos** Crea un nuevo directorio para ese proyecto y toma fotos cada TiempoEntreFotos

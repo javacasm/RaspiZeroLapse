@@ -29,3 +29,5 @@ TODO:
     * Crear directorio para el timelapse
     * Descargar todas las imagenes
     * **/TL:Nombre,TiempoEntreFotos** Crea un nuevo directorio para ese proyecto y toma fotos cada TiempoEntreFotos
+    * **/Pause** para detener el timeLapse
+    * **/Cont** para que continue

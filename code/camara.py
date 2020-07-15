@@ -14,7 +14,7 @@ from fractions import Fraction
 import config
 import utils
 
-v = '1.0'
+v = '1.0.1'
 
 camera = None
 
@@ -38,7 +38,7 @@ def resolucionLD():
 
 def addText(texto):
     global camera
-    camera.annotate_text(texto)
+    camera.annotate_text = texto
 
 def setIso(ISO):
     # 100-200 daylight

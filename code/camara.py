@@ -45,6 +45,9 @@ def setIso(ISO):
     # 400-800 night
     global camera
     camera.iso = ISO
+    # Give the camera a good long time to set gains and
+    # measure AWB (you may wish to use fixed AWB instead)    
+    sleep(10)
 
 def addDate():
     global camera

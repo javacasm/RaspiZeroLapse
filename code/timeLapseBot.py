@@ -45,7 +45,6 @@ def init():
     # global camera
     global welcomeMsg
     sendMsg2Admin(welcomeMsg)
-    # camera = camara.initCamera()
 
 def getImage():
     global camera
@@ -56,9 +55,9 @@ def getImage():
         camera = camara.initCamera()
     if camera != None:
         camara.addDate()
-        imageFile = camara.getImage(camera)
+        imageFile = camara.getImage()
     if time_between_picture == 0 or time_between_picture > 10000:
-        camera =  camara.closeCamera(camera)
+        camera =  camara.closeCamera()
     return imageFile
 
 def sendMsg2Admin(message):
@@ -133,7 +132,6 @@ def updateBot(bot):
     """Answer the message the user sent."""
     global update_id
     global chat_id
-    global camera
     global time_between_picture
     global welcomeMsg 
     

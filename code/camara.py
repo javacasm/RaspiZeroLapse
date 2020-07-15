@@ -19,6 +19,7 @@ v = '1.0'
 camera = None
 
 def initCamera():
+    global camera
     camera = PiCamera() # creamos el objeto camara
     utils.myLog('Init camara')
     return camera

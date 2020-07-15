@@ -21,6 +21,7 @@ camera = None
 def initCamera():
     camera = PiCamera() # creamos el objeto camara
     utils.myLog('Init camara')
+    return camera
    
 def resolucionHD()
     global camera

@@ -7,14 +7,14 @@
 
 # Documentacion https://picamera.readthedocs.io/en/release-1.13/recipes1.html
 
-from picamera import PiCamera
+from picamera import PiCamera, Color
 from time import sleep
 from datetime import datetime
 from fractions import Fraction
 import config
 import utils
 
-v = '1.0.2'
+v = '1.0.3'
 
 camera = None
 
@@ -23,21 +23,24 @@ def initCamera():
     camera = PiCamera() # creamos el objeto camara
     utils.myLog('Init camara')
     return camera
-   
-def resolucionHD():
-    global camera
-    camera.resolution = (1280, 720)
 
 def resolucionMD():
     global camera
-    camera.resolution = (1024, 768)
-    
+    camera.resolution = (1280, 720)
+
+def resolucionHD():
+    global camera
+    camera.resolution = (2592, 1944)
+
 def resolucionLD():
     global camera
     camera.resolution = (80, 480)
 
 def addText(texto):
     global camera
+    # camera.annotate_background = Color('white')
+    camera.annotate_foreground = Color('black')
+    camera.annotate_text_size = 30
     camera.annotate_text = texto
 
 def setIso(ISO):
@@ -46,13 +49,11 @@ def setIso(ISO):
     global camera
     camera.iso = ISO
     # Give the camera a good long time to set gains and
-    # measure AWB (you may wish to use fixed AWB instead)    
+    # measure AWB (you may wish to use fixed AWB instead)
     sleep(10)
 
 def addDate():
-    global camera
-    camera.annotate_text = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
-
+    addText(datetime.now().strftime('%Y/%m/%d %H:%M:%S'))
 
 def setStaticPref():
     # https://picamera.readthedocs.io/en/release-1.13/recipes1.html#capturing-consistent-images
@@ -81,7 +82,7 @@ def getNighImage():
     # Give the camera a good long time to set gains and
     # measure AWB (you may wish to use fixed AWB instead)
     sleep(30)
-    camera.exposure_mode = 'off'    
+    camera.exposure_mode = 'off'
     imageFile = getImage()
     camera.framerate = prevFramerate
     camera.sensor_mode = prevSensorMode
@@ -94,15 +95,13 @@ def getImage( preview = False):
     if preview :
         camera.start_preview() # muestra la previsualizacion
         sleep(1) # espera 5 segundos
-    now = datetime.now() 
+    now = datetime.now()
     date_time = now.strftime("%Y%m%d-%H%M%S")
     fileName = 'image' + date_time + '.jpg'
     fullName = config.ImagesDirectory + fileName
     utils.myDebug("image - " + fullName)
     camera.capture(fullName) # guarda la imagen
-  
     if preview : camera.stop_preview() # cierra la previsualizacion
-    
     return fullName
 
 def closeCamera():

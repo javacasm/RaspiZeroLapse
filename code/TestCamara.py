@@ -13,7 +13,7 @@ from time import sleep
 camera = camara.initCamera() # creamos el objeto camara
 
 for iso in range(100,900,100):
-    message = ('ISO:' + str(iso))
+    message = 'ISO:' + str(iso)
     print(message)
     camara.addText(message)
     camara.setIso(iso)

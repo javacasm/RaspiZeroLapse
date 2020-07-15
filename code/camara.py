@@ -23,19 +23,19 @@ def initCamera():
     utils.myLog('Init camara')
     return camera
    
-def resolucionHD()
+def resolucionHD():
     global camera
     camera.resolution = (1280, 720)
 
-def resolucionMD()
+def resolucionMD():
     global camera
     camera.resolution = (1024, 768)
     
-def resolucionLD()
+def resolucionLD():
     global camera
     camera.resolution = (80, 480)
 
-def addText(texto)
+def addText(texto):
     global camera
     camera.annotate_text(texto)
 

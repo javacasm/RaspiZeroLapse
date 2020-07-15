@@ -12,6 +12,13 @@ from time import sleep
 
 camera = camara.initCamera() # creamos el objeto camara
 
+for iso in range(100,900,100):
+    message = ('ISO:' + str(iso)
+    print(message)
+    camara.addText(message)
+    camara.setIso(iso)
+    camara.getImage()
+
 for i in range(1, 3):
     camara.addDate()
     camara.getImage()

@@ -24,7 +24,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '1.0.6'
+v = '1.0.10'
 
 update_id = None
 
@@ -37,9 +37,11 @@ commandList = '/help, /info, /foto, /Ttiempo, /list, /last, /imageName, /Nnumero
 
 camera = None
 
-time_between_picture = 0 
+time_between_picture = 0
 
 welcomeMsg = "Bienvenido al Bot de TimeLapse " + v
+
+TIME2INITCAMERA = 2
 
 def init():
     # global camera
@@ -53,6 +55,9 @@ def getImage():
     imageFile = None
     if camera == None:
         camera = camara.initCamera()
+        camara.resolucionHD()
+        utils.myLog('Waiting {}s  for camera warn'.format(TIME2INITCAMERA))
+        time.sleep(TIME2INITCAMERA)
     if camera != None:
         camara.addDate()
         imageFile = camara.getImage()

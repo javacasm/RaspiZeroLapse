@@ -95,7 +95,6 @@ def getImage( preview = False):
     fileName = 'image' + date_time + '.jpg'
     fullName = config.ImagesDirectory + fileName
     utils.myDebug("image - " + fullName)
-
     camera.capture(fullName) # guarda la imagen
     
     if preview : camera.stop_preview() # cierra la previsualizacion

@@ -24,7 +24,7 @@ import utils
 import TelegramBase
 import camara
 
-v = '1.0.5'
+v = '1.0.6'
 
 update_id = None
 
@@ -55,10 +55,10 @@ def getImage():
     if camera == None:
         camera = camara.initCamera()
     if camera != None:
+        camara.addDate()
         imageFile = camara.getImage(camera)
     if time_between_picture == 0 or time_between_picture > 10000:
-        camara.closeCamera(camera)
-        camera = None
+        camera =  camara.closeCamera(camera)
     return imageFile
 
 def sendMsg2Admin(message):

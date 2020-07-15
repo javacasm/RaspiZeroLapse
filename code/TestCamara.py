@@ -13,6 +13,6 @@ from time import sleep
 camera = camara.initCamera() # creamos el objeto camara
 
 for i in range(1, 3):
-    camara.addDate
+    camara.addDate()
     camara.getImage()
     sleep(5)

@@ -36,11 +36,11 @@ def createGif(imagesDir, filter, gifFile,fps):
 
 
 
-imagesDir = '/home/javacasm/Descargas/timeLapse/ajo'
+imagesDir = './images_otras/plantitasRosa/'
 
-filtro = 'image20200709-???[1,3,5,7,9]??.jpg'
+filtro = 'image20200710-*.jpg'
 
-ficheroGif = './movie3.gif'
+ficheroGif = './movie5.gif'
 
 gif_file = os.path.join(imagesDir, ficheroGif)
 

@@ -25,16 +25,16 @@ import TelegramBase
 import camara
 import raspi
 
-v = '1.1.2'
+v = '1.1.3'
 
 update_id = None
 
 # 'keypad' buttons
-user_keyboard = [['/help','/info','/Temp','/df'],['/day', '/foto','/night'],['/T0',  '/last' , '/list']]
+user_keyboard = [['/help','/info','/temp','/df'],['/day', '/foto','/night'],['/T0',  '/last' , '/list']]
 # user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard, one_time_keyboard=True)
 user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard)
 
-commandList = '/help, /info, /Temp, /df, /day, /night, /foto, /Ttiempo, /list, /last, /imageName, /NnumeroImagen'
+commandList = '/help, /info, /temp, /df, /day, /night, /foto, /Ttiempo, /list, /last, /imageName, /NnumeroImagen'
 
 camera = None
 
@@ -226,7 +226,7 @@ def updateBot(bot):
                 answer = config.ImagesDirectory + comando[1:]
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
-            elif comando == '/Temp':
+            elif comando == '/temp':
                 answer = raspi.getTemp()
                 utils.myLog(answer)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)

@@ -9,12 +9,13 @@ import subprocess
 
 import utils
 
-v = '0.4'
+v = '0.5'
 
 # https://www.raspberrypi.org/documentation/raspbian/applications/vcgencmd.md
 
 cmdGetTrottled = ['/opt/vc/bin/vcgencmd', 'get_throttled'] 
 cmdGetTemp = ['/opt/vc/bin/vcgencmd', 'measure_temp']
+cmdDF = 'df -H | grep root '
 
 def init(): 
     utils.myLog('RaspiUtils ' + v)
@@ -46,3 +47,9 @@ def getThrottled():
     if strError != None:
         utils.myLog(strError) 
     return str(strThrotled)
+
+def getDiskUsed():
+    strDF = executeCommand(cmdDF)
+    df = strDF.split()
+    strResult = '{} of {} ({}) free'.format(df[3],df[1],df[4])
+    return strResult

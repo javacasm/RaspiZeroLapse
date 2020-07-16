@@ -40,14 +40,14 @@ def addText(texto):
     global camera
     # camera.annotate_background = Color('white')
     camera.annotate_foreground = Color('black')
-    camera.annotate_text_size = 30
+    camera.annotate_text_size = 50
     camera.annotate_text = texto
 
 def addTextNight(texto):
     global camera
     # camera.annotate_background = Color('white')
     camera.annotate_foreground = Color('white')
-    camera.annotate_text_size = 30
+    camera.annotate_text_size = 50
     camera.annotate_text = texto
 
 

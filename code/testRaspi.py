@@ -19,3 +19,7 @@ print('Temperatura: ' + temp)
 throttled = raspi.getThrottled()
 
 print('Throtted: ' + throttled)
+
+df = raspi.getDiskUsed()
+
+print('Disk Used: ' + df)

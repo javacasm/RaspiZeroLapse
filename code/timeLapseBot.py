@@ -24,12 +24,12 @@ import utils
 import TelegramBase
 import camara
 
-v = '1.0.15'
+v = '1.1.0'
 
 update_id = None
 
 # 'keypad' buttons
-user_keyboard = [['/help','/info'],['/day', '/foto','/night'],['/Ttiempo',  '/last' , '/list'],['/NnumeroImagen', '/imageName']]
+user_keyboard = [['/help','/info'],['/day', '/foto','/night'],['/T0',  '/last' , '/list']]
 # user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard, one_time_keyboard=True)
 user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard)
 
@@ -65,12 +65,12 @@ def getImage():
         if nightMode :
              utils.myLog('nigth Mode')
              camara.addDateNight()
-             imgaeFile = camara.getImageNight()
+             imageFile = camara.getImageNight()
         else:
              camara.addDate()
              imageFile = camara.getImage()
     if time_between_picture == 0 or time_between_picture > 10000:
-        camera =  camara.closeCamera()
+        camera = camara.closeCamera()
     return imageFile
 
 def sendMsg2Admin(message):

@@ -43,6 +43,14 @@ def addText(texto):
     camera.annotate_text_size = 30
     camera.annotate_text = texto
 
+def addTextNight(texto):
+    global camera
+    # camera.annotate_background = Color('white')
+    camera.annotate_foreground = Color('white')
+    camera.annotate_text_size = 30
+    camera.annotate_text = texto
+
+
 def setIso(ISO):
     # 100-200 daylight
     # 400-800 night
@@ -54,6 +62,9 @@ def setIso(ISO):
 
 def addDate():
     addText(datetime.now().strftime('%Y/%m/%d %H:%M:%S'))
+
+def addDateNight():
+    addTextNight(datetime.now().strftime('%Y/%m/%d %H:%M:%S'))
 
 def setStaticPref():
     # https://picamera.readthedocs.io/en/release-1.13/recipes1.html#capturing-consistent-images
@@ -68,7 +79,7 @@ def setStaticPref():
     camera.awb_mode = 'off'
     camera.awb_gains = g
 
-def getNighImage():
+def getImageNight():
     # https://picamera.readthedocs.io/en/release-1.13/recipes1.html#capturing-in-low-light
     global camera
     prevFramerate = camera.framerate

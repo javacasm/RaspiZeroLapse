@@ -13,6 +13,7 @@ v = '1.0'
 TELEGRAM_API_TOKEN = 'YOUR TELEGRAM API KEY'
 
 ImagesDirectory = './images/'
+ImagesPartition = 'root'
 
 # chat_id del Admin
 ADMIN_USER = 123123123 

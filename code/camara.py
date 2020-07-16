@@ -14,7 +14,7 @@ from fractions import Fraction
 import config
 import utils
 
-v = '1.0.3'
+v = '1.0.4'
 
 camera = None
 

@@ -8,10 +8,12 @@
 import os
 import glob
 import imageio
+import utils
 
 
 ## Documentación sobre glob https://docs.python.org/3/library/glob.html#glob.glob
-## Documentación sobre imagio https://stackoverflow.com/questions/41228209/making-gif-from-images-using-imageio-in-python
+## Documentación sobre imagio https://imageio.readthedocs.io/en/stable/sec_gettingstarted.html
+## imageio y gifs https://stackoverflow.com/questions/41228209/making-gif-from-images-using-imageio-in-python
 
 
 
@@ -24,26 +26,36 @@ def getFileList2(dir, extension):
         if file_name.endswith(extension):
             file_path = os.path.join(dir, file_name)
             imageFiles.append(file_path)
-            
+
     return sorted(imageFiles)
 
 def createGif(imagesDir, filter, gifFile,fps):
     imageFiles = getFileList(imagesDir, filter)
+    cursors = ['|','\\','-','/','-']
     images = []
+    counter = 0
+    cursor = 0
     for imageFile in imageFiles:
         images.append(imageio.imread(imageFile))
+        if counter%10 == 0 :
+            print(' {} {} of {} images'.format(cursors[cursor%len(cursors)],counter,len(imageFiles)),end = '\r')
+            cursor += 1
+        counter += 1
+    print(' Saving gif with {} images'.format(len(imageFiles)),end = '\r')
     imageio.mimsave(gifFile, images, fps = fps)
+    print('Gif file {} with {} images'.format(gifFile, len(imageFiles)))
+    return gifFile
 
 
 
-imagesDir = '/home/javacasm/Descargas/timeLapse/ajo'
+imagesDir = '/home/javacasm/Descargas/timeLapse/tormenta/'
 
-filtro = 'image20200709-???[1,3,5,7,9]??.jpg'
+filtro = 'image2020071*.jpg'
 
-ficheroGif = './movie3.gif'
+ficheroGif = 'tormenta.gif'
 
 gif_file = os.path.join(imagesDir, ficheroGif)
 
-createGif(imagesDir, filtro, gif_file, 10)
+finalfile = createGif(imagesDir, filtro, gif_file, 10)
 
 

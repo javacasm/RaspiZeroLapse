@@ -3,9 +3,9 @@
 """Simple Bot to reply to Telegram messages
     take pictures and send to users
     Can take pictures in time lapse way
-    Licencia CC by @javacasm    
+    Licencia CC by @javacasm
     Julio de 2020
-    Telegram stuff: original @inopya https://github.com/inopya/mini-tierra    
+    Telegram stuff: original @inopya https://github.com/inopya/mini-tierra
 """
 
 
@@ -24,16 +24,16 @@ import utils
 import TelegramBase
 import camara
 
-v = '1.0.10'
+v = '1.0.15'
 
 update_id = None
 
 # 'keypad' buttons
-user_keyboard = [['/help','/info'],['/foto','/Ttiempo'], [ '/last' , '/list'],['/NnumeroImagen', '/imageName']]
+user_keyboard = [['/help','/info'],['/day', '/foto','/night'],['/Ttiempo',  '/last' , '/list'],['/NnumeroImagen', '/imageName']]
 # user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard, one_time_keyboard=True)
 user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard)
 
-commandList = '/help, /info, /foto, /Ttiempo, /list, /last, /imageName, /NnumeroImagen'
+commandList = '/help, /info, /day, /night, /foto, /Ttiempo, /list, /last, /imageName, /NnumeroImagen'
 
 camera = None
 
@@ -43,6 +43,8 @@ welcomeMsg = "Bienvenido al Bot de TimeLapse " + v
 
 TIME2INITCAMERA = 2
 
+nightMode = False
+
 def init():
     # global camera
     global welcomeMsg
@@ -51,6 +53,7 @@ def init():
 def getImage():
     global camera
     global time_between_picture
+    global nightMode
 
     imageFile = None
     if camera == None:
@@ -59,8 +62,13 @@ def getImage():
         utils.myLog('Waiting {}s  for camera warn'.format(TIME2INITCAMERA))
         time.sleep(TIME2INITCAMERA)
     if camera != None:
-        camara.addDate()
-        imageFile = camara.getImage()
+        if nightMode :
+             utils.myLog('nigth Mode')
+             camara.addDateNight()
+             imgaeFile = camara.getImageNight()
+        else:
+             camara.addDate()
+             imageFile = camara.getImage()
     if time_between_picture == 0 or time_between_picture > 10000:
         camera =  camara.closeCamera()
     return imageFile
@@ -78,6 +86,8 @@ def main():
     global chat_id
     global time_between_picture
     global camera
+    global nightMode
+
 
     init()
 
@@ -138,8 +148,9 @@ def updateBot(bot):
     global update_id
     global chat_id
     global time_between_picture
-    global welcomeMsg 
-    
+    global welcomeMsg
+    global nightMode
+
     #utils.myLog('Updating telegramBot')
     # Request updates after the last update_id
     for update in bot.get_updates(offset=update_id, timeout=10):
@@ -156,7 +167,6 @@ def updateBot(bot):
                 message = 'User: {} not allowed. Chat_id {} command: {}. Will be reported'.format( str(user_real_name), str(chat_id), comando)
                 sendMsg2Admin(message)
                 break
-            
             TelegramBase.chat_ids[user_real_name] = [command_time,chat_id]
             utils.myLog('Command: '+comando+' from user ' + str(user_real_name )+' in chat id:' + str(chat_id)+ ' at '+str(command_time))
             if comando == '/start':
@@ -171,11 +181,17 @@ def updateBot(bot):
             elif comando == '/users':
                 sUsers = TelegramBase.getUsersInfo()
                 TelegramBase.send_message (sUsers,chat_id)
+            elif comando == '/day':
+                nightMode == False
+                update.message.reply_text('Day mode', reply_markup=user_keyboard_markup)
+            elif comando == '/night':
+                nightMode == True
+                update.message.reply_text('Night mode', reply_markup=user_keyboard_markup)
             elif comando == '/foto':
                 answer = getImage()
                 utils.myLog(answer)
                 TelegramBase.send_picture(answer, chat_id)
-                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)    
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando == '/last':
                 imagenes = os.listdir(config.ImagesDirectory)
                 answer = config.ImagesDirectory + sorted(imagenes)[-1]

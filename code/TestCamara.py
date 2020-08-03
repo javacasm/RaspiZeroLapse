@@ -8,10 +8,14 @@
 
 
 import camara
+import utils
 from time import sleep
 
-camera = camara.initCamera() # creamos el objeto camara
+v = '0.7'
 
+print('Camara version: '+ camara.v)
+
+camera = camara.initCamera() # creamos el objeto camara
 
 def testISO():
     for iso in range(100,900,100):
@@ -34,5 +38,29 @@ def testImageNight():
         sleep(5)
 
 
-testImageNight()
+def testResolution():
+   camara.resolucionHD()
+   mess = 'HD:' + str(camara.camera.resolution)
+   utils.myLog(mess)
+   camara.addText(mess)
+   camara.getImage(fileName = 'imageHD.jpg')
 
+   camara.resolucionV1()
+   mess = 'V1D:' + str(camara.camera.resolution)
+   utils.myLog(mess)
+   camara.addText(mess)
+   camara.getImage(fileName = 'imageV1D.jpg')
+
+   camara.resolucionMD()
+   mess = 'MD:' + str(camara.camera.resolution)
+   utils.myLog(mess)
+   camara.addText(mess)
+   camara.getImage(fileName = 'imageMD.jpg')
+
+   camara.resolucionLD()
+   mess = 'LD:' + str(camara.camera.resolution) 
+   utils.myLog(mess)
+   camara.addText(mess)
+   camara.getImage(fileName = 'imageLD.jpg')
+
+testResolution()

@@ -7,15 +7,17 @@
  """
 
 
-import camara
-import utils
+import os
+from os import path
 from time import sleep
 
-v = '0.7'
+import config
+import camara
 
-print('Camara version: '+ camara.v)
+v = '0.9'
 
 camera = camara.initCamera() # creamos el objeto camara
+
 
 def testISO():
     for iso in range(100,900,100):
@@ -23,44 +25,31 @@ def testISO():
         print(message)
         camara.addText(message)
         camara.setIso(iso)
-        camara.getImage()
+        camara.getImage(fileName = message+'.jpg')
 
 def testImage():
     for i in range(1, 3):
         camara.addDate()
         camara.getImage()
-        sleep(5)
+        sleep(1)
 
 def testImageNight():
     for i in range(1, 3):
         camara.addDateNight()
         camara.getImageNight()
-        sleep(5)
+        sleep(1)
 
 
-def testResolution():
-   camara.resolucionHD()
-   mess = 'HD:' + str(camara.camera.resolution)
-   utils.myLog(mess)
-   camara.addText(mess)
-   camara.getImage(fileName = 'imageHD.jpg')
+if not os.path.exists(config.ImagesDirectory):
+     os.mkdir(config.ImagesDirectory)
 
-   camara.resolucionV1()
-   mess = 'V1D:' + str(camara.camera.resolution)
-   utils.myLog(mess)
-   camara.addText(mess)
-   camara.getImage(fileName = 'imageV1D.jpg')
 
-   camara.resolucionMD()
-   mess = 'MD:' + str(camara.camera.resolution)
-   utils.myLog(mess)
-   camara.addText(mess)
-   camara.getImage(fileName = 'imageMD.jpg')
+print('Testing image')
+testImage()
 
-   camara.resolucionLD()
-   mess = 'LD:' + str(camara.camera.resolution) 
-   utils.myLog(mess)
-   camara.addText(mess)
-   camara.getImage(fileName = 'imageLD.jpg')
+print('Testing ISO')
+testISO()
 
-testResolution()
+print('Testing night image')
+testImageNight()
+

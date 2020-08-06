@@ -2,17 +2,25 @@
 # -*- coding: utf-8 -*-
 """ Raspberry stuff
     Licencia CC by @javacasm    
-    Julio de 2020
+    Agosto de 2020
+
+instalación
+   pip3 install psutil
+
+
 """
+
 import os
 import subprocess
 import socket
-import utils
-import config
 import os
 import urllib.request
+import psutil
 
-v = '0.9'
+import utils
+import config
+
+v = '1.2'
 
 # https://www.raspberrypi.org/documentation/raspbian/applications/vcgencmd.md
 
@@ -29,13 +37,23 @@ def executeCommand(command):
     output = stream.read() 
     return output
 
-
 def executeProcess(command, arguments): 
     process = subprocess.Popen([command, arguments], 
                     stdout=subprocess.PIPE, 
                     stderr=subprocess.PIPE)
     stdout, stderr = process.communicate() 
     return stdout, stderr
+
+# https://gist.github.com/Sanix-Darker/8cbed2ff6f8eb108ce2c8c51acd2aa5a
+
+def checkPythonProcessRunning(pythonScript):
+    counter = 0
+    for proc in psutil.process_iter():
+        if pythonScript in proc.cmdline():
+           counter += 1
+           utils.myDebug('cmd: ' + str(proc.cmdline()))
+    utils.myLog(pythonScript + ' está en ejecución {} veces'.format(counter))
+    return counter
 
 def getTemp():
     # /opt/vc/bin/vcgencmd get_throttled

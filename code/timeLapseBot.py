@@ -4,7 +4,7 @@
     take pictures and send to users
     Can take pictures in time lapse way
     Licencia CC by @javacasm
-    Julio de 2020
+    Noviembre de 2020
     Telegram stuff: original @inopya https://github.com/inopya/mini-tierra
 """
 
@@ -37,11 +37,13 @@ user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard)
 
 commandList = '/help, /info, /temp, /df, /day, /night, /foto, /Ttiempo, /list, /last, /imageName, /NnumeroImagen'
 
+botName = 'raspiLapseBot'
+
 camera = None
 
 time_between_picture = 0
 
-welcomeMsg = "Bienvenido al Bot de TimeLapse " + v
+welcomeMsg = "Bienvenido al Bot " + botName  + v
 
 TIME2INITCAMERA = 2
 
@@ -120,7 +122,7 @@ def main():
                 last_picture = now
                 TelegramBase.send_message(message, chat_id)
             if (now - last_Beat) > 60000: # 60 segundos
-                utils.myLog('BotTest')
+                utils.myLog(botName + ' test')
                 last_Beat = now
             updateBot(bot)
         except NetworkError:
@@ -222,11 +224,11 @@ def updateBot(bot):
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando.startswith('/T'):
-                time_between_picture = int(comando[2:])      
+                time_between_picture = int(comando[2:])
                 answer = getTimeLapseStr()
                 utils.myLog(answer)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)             
-            elif comando.startswith('/image'):                                   
+            elif comando.startswith('/image'):
                 answer = config.ImagesDirectory + comando[1:]
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)

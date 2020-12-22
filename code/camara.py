@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """ Todo lo relacionado con la camara
-    Licencia CC by @javacasm    
-    Julio de 2020
+    Licencia CC by @javacas
+    Agosto de 2020
 """
 
 # Documentacion https://picamera.readthedocs.io/en/release-1.13/recipes1.html
@@ -14,7 +14,7 @@ from fractions import Fraction
 import config
 import utils
 
-v = '1.0.4'
+v = '1.0.7'
 
 camera = None
 
@@ -24,30 +24,34 @@ def initCamera():
     utils.myLog('Init camara')
     return camera
 
+def resolucionV1():
+    global camera
+    camera.resolution = (2592,1944)
+
 def resolucionMD():
     global camera
-    camera.resolution = (1280, 720)
+    camera.resolution = (camera.MAX_RESOLUTION.width//2,camera.MAX_RESOLUTION.height//2 )
 
 def resolucionHD():
     global camera
-    camera.resolution = (2592, 1944)
+    camera.resolution = camera.MAX_RESOLUTION
 
 def resolucionLD():
     global camera
-    camera.resolution = (80, 480)
+    camera.resolution = (800, 480)
 
 def addText(texto):
     global camera
     # camera.annotate_background = Color('white')
     camera.annotate_foreground = Color('black')
-    camera.annotate_text_size = 30
+    camera.annotate_text_size = 50
     camera.annotate_text = texto
 
 def addTextNight(texto):
     global camera
     # camera.annotate_background = Color('white')
     camera.annotate_foreground = Color('white')
-    camera.annotate_text_size = 30
+    camera.annotate_text_size = 50
     camera.annotate_text = texto
 
 
@@ -101,14 +105,15 @@ def getImageNight():
     camera.iso = prevIso
     return imageFile
 
-def getImage( preview = False):
+def getImage( preview = False, fileName = None):
     global camera
     if preview :
         camera.start_preview() # muestra la previsualizacion
         sleep(1) # espera 5 segundos
     now = datetime.now()
     date_time = now.strftime("%Y%m%d-%H%M%S")
-    fileName = 'image' + date_time + '.jpg'
+    if fileName == None:
+        fileName = 'image' + date_time + '.jpg'
     fullName = config.ImagesDirectory + fileName
     utils.myDebug("image - " + fullName)
     camera.capture(fullName) # guarda la imagen

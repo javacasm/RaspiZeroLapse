@@ -17,15 +17,16 @@ from telegram.error import NetworkError, Unauthorized
 import requests
 import time # The time library is useful for delays
 import os
-
 import sys
+import datetime
+
 import config
 import utils
 import TelegramBase
 import camara
 import raspi
 
-v = '1.1.3'
+v = '1.1.5'
 
 update_id = None
 
@@ -68,7 +69,10 @@ def getImage():
              camara.addDateNight()
              imageFile = camara.getImageNight()
         else:
-             camara.addDate()
+             if datetime.datetime.now().hour >= 20 or datetime.datetime.now().hour < 7 :
+                 camara.addDateNight()
+             else:
+                 camara.addDate()
              imageFile = camara.getImage()
     if time_between_picture == 0 or time_between_picture > 10000:
         camera = camara.closeCamera()

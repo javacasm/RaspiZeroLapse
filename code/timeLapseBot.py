@@ -4,7 +4,7 @@
     take pictures and send to users
     Can take pictures in time lapse way
     Licencia CC by @javacasm
-    Julio de 2020
+    Noviembre de 2020
     Telegram stuff: original @inopya https://github.com/inopya/mini-tierra
 """
 
@@ -17,8 +17,9 @@ from telegram.error import NetworkError, Unauthorized
 import requests
 import time # The time library is useful for delays
 import os
-
 import sys
+import datetime
+
 import config
 import utils
 import TelegramBase
@@ -62,13 +63,14 @@ for line in user_keyboard:
 
 commandList += '/imageName, /NnumeroImagen'
 
+botName = 'raspiLapseBot'
+
 camera = None
 
 time_between_picture = 0
 
-welcomeMsg = "Bienvenido al Bot de " + botName + ' '  + v
+welcomeMsg = "Bienvenido al Bot " + botName  + v
 
-bReboot = False
 
 TIME2INITCAMERA = 2
 
@@ -96,7 +98,10 @@ def getImage():
              camara.addDateNight()
              imageFile = camara.getImageNight()
         else:
-             camara.addDate()
+             if datetime.datetime.now().hour >= 20 or datetime.datetime.now().hour < 7 :
+                 camara.addDateNight()
+             else:
+                 camara.addDate()
              imageFile = camara.getImage()
     if time_between_picture == 0 or time_between_picture > 10000:
         camera = camara.closeCamera()
@@ -144,7 +149,7 @@ def main():
                 last_picture = now
                 TelegramBase.send_message(message, chat_id)
             if (now - last_Beat) > 60000: # 60 segundos
-                utils.myLog('BotTest')
+                utils.myLog(botName + ' test')
                 last_Beat = now
             if bReboot:
                 bReboot = False
@@ -235,7 +240,7 @@ def updateBot(bot):
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando == cmdListPhotos:
                 imagenes = sorted(os.listdir(config.ImagesDirectory))
-                answer = str(len(imagenes)) + ' Imágenes\n----------------------\n' 
+                answer = str(len(imagenes)) + ' Imágenes\n----------------------\n'
                 utils.myDebug(answer)
                 contadorImagenes = 1
                 for imagen in imagenes:
@@ -256,8 +261,8 @@ def updateBot(bot):
                 time_between_picture = int(comando[2:])
                 answer = getTimeLapseStr()
                 utils.myLog(answer)
-                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)             
-            elif comando.startswith('/image'): 
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
+            elif comando.startswith('/image'):
                 answer = config.ImagesDirectory + comando[1:]
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)

@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """ Raspberry stuff
-    Licencia CC by @javacasm    
+    Licencia CC by @javacasm
     Agosto de 2020
 
 instalación
    pip3 install psutil
-
 
 """
 
@@ -21,6 +20,7 @@ import utils
 import config
 
 v = '1.2'
+
 
 # https://www.raspberrypi.org/documentation/raspbian/applications/vcgencmd.md
 

@@ -26,16 +26,42 @@ import TelegramBase
 import camara
 import raspi
 
-v = '1.1.5'
+v = '1.2.1'
 
 update_id = None
 
+botName = 'timeLapseBot'
+
+cmdHi = 'hi'
+cmdStart = '/start'
+cmdUsers = '/users'
+cmdHelp = '/help'
+cmdInfo = '/info'
+cmdTemp = '/temp'
+cmdReboot = '/reboot'
+cmdIP = '/ip'
+cmdHostname = '/host'
+cmdDF = '/df'
+
+cmdDayMode = '/day'
+cmdPhoto = '/photo'
+cmdNightMode = '/night'
+cmdNoLapse = '/T0'
+cmdLastPhoto = '/last'
+cmdListPhotos = '/list'
+
 # 'keypad' buttons
-user_keyboard = [['/help','/info','/temp','/df'],['/day', '/foto','/night'],['/T0',  '/last' , '/list']]
+
+user_keyboard = [[cmdHelp, cmdInfo, cmdTemp, cmdReboot, cmdIP, cmdDF],[cmdDayMode,cmdPhoto ,cmdNightMode],[cmdNoLapse,cmdLastPhoto ,cmdListPhotos ]]
 # user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard, one_time_keyboard=True)
 user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard)
+commandList = ''
+for line in user_keyboard:
+    for item in line:
+        commandList += item + ', '
 
-commandList = '/help, /info, /temp, /df, /day, /night, /foto, /Ttiempo, /list, /last, /imageName, /NnumeroImagen'
+
+commandList += '/imageName, /NnumeroImagen'
 
 botName = 'raspiLapseBot'
 
@@ -44,6 +70,7 @@ camera = None
 time_between_picture = 0
 
 welcomeMsg = "Bienvenido al Bot " + botName  + v
+
 
 TIME2INITCAMERA = 2
 
@@ -94,7 +121,7 @@ def main():
     global time_between_picture
     global camera
     global nightMode
-
+    global bReboot
 
     init()
 
@@ -124,6 +151,12 @@ def main():
             if (now - last_Beat) > 60000: # 60 segundos
                 utils.myLog(botName + ' test')
                 last_Beat = now
+            if bReboot:
+                bReboot = False
+                sendMsg2Admin('Reboot in 10 seconds!!!')
+                # time.sleep(10)
+                # raspi.reboot()
+
             updateBot(bot)
         except NetworkError:
             time.sleep(0.1)
@@ -157,6 +190,7 @@ def updateBot(bot):
     global time_between_picture
     global welcomeMsg
     global nightMode
+    global bReboot
 
     #utils.myLog('Updating telegramBot')
     # Request updates after the last update_id
@@ -176,37 +210,37 @@ def updateBot(bot):
                 break
             TelegramBase.chat_ids[user_real_name] = [command_time,chat_id]
             utils.myLog('Command: '+comando+' from user ' + str(user_real_name )+' in chat id:' + str(chat_id)+ ' at '+str(command_time))
-            if comando == '/start':
+            if comando == cmdStart:
                 update.message.reply_text(welcomeMsg, reply_markup=user_keyboard_markup)
-            elif comando == 'hi':
+            elif comando == cmdHi:
                 update.message.reply_text('Hello {}'.format(update.message.from_user.first_name), reply_markup=user_keyboard_markup)
-            elif comando == '/info':
+            elif comando == cmdInfo:
                 answer = 'Info: ' + utils.getStrDateTime() + '\n==========================\n\n' + 'Tiempo entre imágenes: ' + getTimeLapseStr() + '\n '+str(len(os.listdir(config.ImagesDirectory)))+' imágenes'
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
-            elif comando == '/help':
+            elif comando == cmdHelp:
                 bot.send_message(chat_id = chat_id, text = commandList, reply_markup = user_keyboard_markup)
-            elif comando == '/users':
+            elif comando == cmdUsers:
                 sUsers = TelegramBase.getUsersInfo()
                 TelegramBase.send_message (sUsers,chat_id)
-            elif comando == '/day':
+            elif comando == cmdDayMode:
                 nightMode == False
                 update.message.reply_text('Day mode', reply_markup=user_keyboard_markup)
-            elif comando == '/night':
+            elif comando == cmdNightMode:
                 nightMode == True
                 update.message.reply_text('Night mode', reply_markup=user_keyboard_markup)
-            elif comando == '/foto':
+            elif comando == cmdPhoto:
                 answer = getImage()
                 utils.myLog(answer)
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
-            elif comando == '/last':
+            elif comando == cmdLastPhoto:
                 imagenes = os.listdir(config.ImagesDirectory)
                 answer = config.ImagesDirectory + sorted(imagenes)[-1]
                 TelegramBase.send_picture(answer, chat_id)
-                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)        
-            elif comando == '/list':
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
+            elif comando == cmdListPhotos:
                 imagenes = sorted(os.listdir(config.ImagesDirectory))
-                answer = str(len(imagenes)) + ' Imágenes\n----------------------\n' 
+                answer = str(len(imagenes)) + ' Imágenes\n----------------------\n'
                 utils.myDebug(answer)
                 contadorImagenes = 1
                 for imagen in imagenes:
@@ -227,21 +261,30 @@ def updateBot(bot):
                 time_between_picture = int(comando[2:])
                 answer = getTimeLapseStr()
                 utils.myLog(answer)
-                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)             
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
             elif comando.startswith('/image'):
                 answer = config.ImagesDirectory + comando[1:]
                 TelegramBase.send_picture(answer, chat_id)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
-            elif comando == '/temp':
+            elif comando == cmdTemp:
                 answer = raspi.getTemp()
                 utils.myLog(answer)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
-            elif comando == '/df':
+            elif comando == cmdDF:
                 answer = raspi.getDiskUsed()
                 utils.myLog(answer)
                 update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
+            elif comando == cmdIP:
+                answer = raspi.getIP()
+                utils.myLog(answer)
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
+            elif comando == cmdReboot:
+                answer = 'Reboot in 10 seconds!!!'
+                utils.myLog(answer)
+                update.message.reply_text(answer,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup = user_keyboard_markup)
+                bReboot = True
             else:
-                update.message.reply_text('echobot: '+update.message.text, reply_markup=user_keyboard_markup)                
+                update.message.reply_text('echobot: '+update.message.text, reply_markup=user_keyboard_markup)
 
 if __name__ == '__main__':
     main()
